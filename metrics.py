@@ -143,7 +143,6 @@ def get_player_metric_figs(name: str, season: str, game_type: str, top_n: int = 
     figs = []
 
     for metric in metrics:
-        # 1) pull top N
         top_df = pd.read_sql(
             f"""
             SELECT PLAYER_NAME, {metric}
@@ -157,13 +156,11 @@ def get_player_metric_figs(name: str, season: str, game_type: str, top_n: int = 
             params={"season": season, "game_type": game_type}
         )
 
-        # 2) get selected player’s stat
         stats = get_player_stats(name, season, game_type)
         stat_map = dict(zip(metrics, stats))
         player_val = stat_map[metric]
         player_row = pd.DataFrame({"PLAYER_NAME": [name], metric: [player_val]})
 
-        # 3) combine, dedupe, flag, sort
         df = pd.concat([top_df, player_row], ignore_index=True)
         df = df.drop_duplicates(subset="PLAYER_NAME", keep="first")
         df["active"] = df["PLAYER_NAME"] == name
@@ -180,7 +177,6 @@ def get_player_metric_figs(name: str, season: str, game_type: str, top_n: int = 
         }
 
         names = NAMES.get(metric, metric)
-        # 4) build the bar chart
         fig = px.bar(
             df,
             x=metric,
@@ -254,7 +250,6 @@ def get_team_metric_figs(name: str, season: str, game_type: str, top_n: int = 10
     figs = []
 
     for metric in metrics:
-        # 1) pull top N
         top_df = pd.read_sql(
             f"""
             SELECT TEAM_NAME, {metric}
@@ -268,13 +263,11 @@ def get_team_metric_figs(name: str, season: str, game_type: str, top_n: int = 10
             params={"season": season, "game_type": game_type}
         )
 
-        # 2) get selected player’s stat
         stats = get_team_stats(name, season, game_type)
         stat_map = dict(zip(metrics, stats))
         team_val = stat_map[metric]
         team_row = pd.DataFrame({"TEAM_NAME": [name], metric: [team_val]})
 
-        # 3) combine, dedupe, flag, sort
         df = pd.concat([top_df, team_row], ignore_index=True)
         df = df.drop_duplicates(subset="TEAM_NAME", keep="first")
         df["active"] = df["TEAM_NAME"] == name
@@ -291,7 +284,6 @@ def get_team_metric_figs(name: str, season: str, game_type: str, top_n: int = 10
         }
 
         names = NAMES.get(metric, metric)
-        # 4) build the bar chart
         fig = px.bar(
             df,
             x=metric,
