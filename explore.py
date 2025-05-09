@@ -88,8 +88,8 @@ def create_graph(x_axis, y_axis, chart_type, df, selected_team):
                                  x_axis: x_label,
                                  y_axis: y_label,
                              },
-                             symbol="active",  # use our boolean to pick symbol
-                             symbol_map={True: "x", False: "circle"},  # X for selected, circle for others
+                             symbol="active",
+                             symbol_map={True: "x", False: "circle"},
                              size_max=20,
                              size="marker_size",
 
@@ -205,8 +205,8 @@ def create_graph2(x_axis, y_axis, chart_type, df, selected_player):
                                  x_axis: x_label,
                                  y_axis: y_label,
                              },
-                             symbol="active",  # use our boolean to pick symbol
-                             symbol_map={True: "x", False: "circle"},  # X for selected, circle for others
+                             symbol="active",
+                             symbol_map={True: "x", False: "circle"},
                              size_max=20,
                              size="marker_size",
 
